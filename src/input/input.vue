@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClasses">
+  <div :id="rootId" :class="rootClasses" :style="rootStyle">
     <div :class="`${componentName}__wrap--prefix`">
       <div :class="`${componentName}__icon--prefix`">
         <template v-if="prefixIconContent">
@@ -14,6 +14,7 @@
       <div :class="`${componentName}__content ${componentName}--${status || 'default'}`">
         <input
           ref="inputRef"
+          v-bind="inputAttrs"
           :value="innerValue"
           :name="name"
           :class="inputClasses"
@@ -51,7 +52,7 @@
 
 <script lang="ts">
 import { CloseCircleFilledIcon } from 'tdesign-icons-vue-next';
-import { ref, computed, defineComponent, getCurrentInstance, toRefs, nextTick, watch } from 'vue';
+import { ref, computed, defineComponent, getCurrentInstance, toRefs, nextTick, watch, useAttrs } from 'vue';
 import { useFocus } from '@vueuse/core';
 import config from '../config';
 import InputProps from './props';
@@ -68,6 +69,7 @@ export default defineComponent({
     TNode,
     CloseCircleFilledIcon,
   },
+  inheritAttrs: false,
   props: {
     ...InputProps,
     labelAlign: {
@@ -103,6 +105,9 @@ export default defineComponent({
       },
     ]);
 
+    const attrs = useAttrs();
+    const { id: rootId, class: className, style: rootStyle, ...inputAttrs } = attrs;
+
     const rootClasses = computed(() => [
       componentName,
       {
@@ -111,6 +116,7 @@ export default defineComponent({
         [`${componentName}--center`]: props.labelAlign === 'center',
         [`${componentName}--border`]: !props.borderless,
       },
+      className,
     ]);
 
     const setInputValue = (v: InputValue = '') => {
@@ -195,6 +201,9 @@ export default defineComponent({
       labelContent,
       innerValue,
       inputRef,
+      inputAttrs,
+      rootStyle,
+      rootId,
       handleClear,
       handleFocus,
       handleBlur,
