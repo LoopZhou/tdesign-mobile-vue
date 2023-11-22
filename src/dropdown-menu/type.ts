@@ -13,11 +13,6 @@ export interface TdDropdownMenuProps {
    */
   closeOnClickOverlay?: boolean;
   /**
-   * 菜单展开方向
-   * @default down
-   */
-  direction?: 'down' | 'up';
-  /**
    * 动画时长
    * @default 200
    */
@@ -65,6 +60,12 @@ export interface TdDropdownItemProps {
    */
   optionsColumns?: string | number;
   /**
+   * 选项排列；不再支持 tree 布局，可与 treeSelect 配合使用
+   * @default columns
+   * @deprecated
+   */
+  optionsLayout?: string;
+  /**
    * 选中值
    */
   value?: DropdownValue;
@@ -76,6 +77,11 @@ export interface TdDropdownItemProps {
    * 选中值
    */
   modelValue?: DropdownValue;
+  /**
+   * 是否展示
+   * @default false
+   */
+  visible?: boolean;
   /**
    * 值改变时触发
    */
@@ -96,4 +102,4 @@ export interface DropdownOption {
   value: DropdownValue;
 }
 
-export type DropdownValue = string | number;
+export type DropdownValue = string | number | Array<DropdownValue>;
