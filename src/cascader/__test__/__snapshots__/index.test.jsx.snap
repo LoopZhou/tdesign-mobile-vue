@@ -21,6 +21,7 @@ exports[`cascader > events > : pick 1`] = `
     <div
       class="t-cascader"
     >
+      
       <div
         class="t-cascader__title"
       >
@@ -43,6 +44,7 @@ exports[`cascader > events > : pick 1`] = `
           />
         </svg>
       </div>
+      
       <div
         class="t-cascader__content"
       >
