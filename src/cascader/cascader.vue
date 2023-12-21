@@ -1,6 +1,9 @@
 <template>
   <t-popup v-model="open" placement="bottom" @visible-change="onVisibleChange">
     <div :class="`${name}`">
+      <div :class="`${name}__close-btn ${name}__prefix-btn`" @click="onClose">
+        <t-node v-if="prefixBtnTNode" :content="prefixBtnTNode" />
+      </div>
       <div :class="`${name}__title`">
         <t-node v-if="!(typeof titleTNode === 'string')" :content="titleTNode" />
         <template v-else>{{ title }}</template>
@@ -161,6 +164,9 @@ export default defineComponent({
         defaultNode: h(CloseIcon, { size: '24px' }),
       });
     });
+    const prefixBtnTNode = computed(() => {
+      return renderTNode(internalInstance, 'prefixBtn');
+    });
     const titleTNode = computed(() => renderTNode(internalInstance, 'title'));
     const placeholderTNode = computed(() => renderTNode(internalInstance, 'placeholder'));
 
@@ -224,6 +230,8 @@ export default defineComponent({
       } else if (item[(keys as Ref<KeysType>).value?.children ?? 'children']?.length === 0) {
         childrenInfo.value = e;
         childrenInfo.level = level;
+      } else if (!checkStrictly.value) {
+        updateCascaderValue();
       }
     };
 
@@ -330,6 +338,7 @@ export default defineComponent({
       onTabChange,
       handleSelect,
       closeBtnTNode,
+      prefixBtnTNode,
       titleTNode,
       placeholderTNode,
       stepIndex,
